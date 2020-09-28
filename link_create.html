@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ulgena jQuery Link Sample</title>
+
+    <!-- load libraries -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="content">
+    <h3>jQuery Link Create</h3>
+
+    <h4>Api End Point</h4>
+    <p>https://api.ulgena.com/link/create</p>
+
+    <h4>Method</h4>
+    <p>POST</p>
+
+    <br>
+    Api Key:
+    <br>
+    <input type="text" id="txtLinkCreateApiKey" value="YOUR_API_KEY">
+    <br><br>
+
+    Title <small>(Optional)</small>:
+    <br>
+    <input type="text" id="txtLinkCreateTitle" value="Awesome Ulgena!">
+    <br><br>
+
+    Strategy:
+    <br>
+    <select id="txtLinkCreateStrategy">
+        <option value="1">Shortest</option>
+        <option value="2">Random</option>
+        <option value="3">Suggested</option>
+        <option value="4">Suggested with dash (SEO friendly)</option>
+        <option value="5">Suggested camel case</option>
+    </select>
+    <br><br>
+
+    Destination:
+    <br>
+    <input type="text" id="txtLinkCreateDestination" value="https://www.youtube.com/watch?v=7jpbORl55x8">
+    <br><br>
+    <button type="button" id="btnGenerateLink">Create Link</button>
+    <br><br>
+
+    <strong>Result:</strong>
+    <br>
+    <pre id="json"></pre>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnGenerateLink').on('click', function () {
+            let linkRequest = {
+                title: $('#txtLinkCreateTitle').val(),
+                strategy: $('#txtLinkCreateStrategy').val(),
+                destination: $('#txtLinkCreateDestination').val(),
+            }
+
+            let requestHeaders = {
+                "Content-Type": "application/json",
+                "ulgena-apikey": $('#txtLinkCreateApiKey').val()
+            }
+
+            $.ajax({
+                url: "https://api.ulgena.com/link/create",
+                type: "post",
+                data: JSON.stringify(linkRequest),
+                headers: requestHeaders,
+                dataType: "json",
+                success: (link) => {
+                    console.log(link);
+                    $('#json').text(JSON.stringify(link, undefined, 2));
+                },
+				error: function (request, status, error) {
+					$('#json').text(request.responseText);
+				}				
+            });
+        })
+    });
+</script>
+
+</body>
+</html>

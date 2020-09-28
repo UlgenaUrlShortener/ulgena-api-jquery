@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ulgena jQuery Link Sample</title>
+
+    <!-- load libraries -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="content">
+    <h3>jQuery Link List</h3>
+
+    <h4>Api End Point</h4>
+    <p>https://api.ulgena.com/link</p>
+
+    <h4>Method</h4>
+    <p>GET</p>
+
+    <br>
+    Api Key:
+    <br>
+    <input type="text" id="txtLinkApiKey" value="YOUR_API_KEY">
+
+    <br><br>
+    <button type="button" id="btnGenerateLink">List Links</button>
+    <br><br>
+    <strong>Result:</strong>
+    <br>
+    <pre id="json"></pre>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnGenerateLink').on('click', function () {
+
+            let requestHeaders = {
+                "Content-Type": "application/json",
+                "ulgena-apikey": $('#txtLinkApiKey').val()
+            }
+
+            $.ajax({
+                url: "https://api.ulgena.com/link",
+                type: "get",
+                headers: requestHeaders,
+                dataType: "json",
+                success: (link) => {
+                    console.log(link);
+                    $('#json').text(JSON.stringify(link, undefined, 2));
+                },
+				error: function (request, status, error) {
+					$('#json').text(request.responseText);
+				}
+            });
+        })
+    });
+</script>
+
+</body>
+</html>
